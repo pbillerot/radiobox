@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Radiobox</string>
+    <string name="app_title">Boîte à Radios</string>
+    <string name="title_settings">Réglages</string>
+    <string name="pref_url">Url des radio XML</string>
+
+</resources>

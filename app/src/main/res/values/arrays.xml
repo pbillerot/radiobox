@@ -1,0 +1,12 @@
+<resources>
+    <!-- Drums Preference -->
+    <string-array name="radio_entries">
+        <item>100</item>
+        <item>110</item>
+    </string-array>
+
+    <string-array name="radio_values">
+        <item>/Abri/Drums/drums_100.mp3</item>
+        <item>/Abri/Drums/drums_110.mp3</item>
+    </string-array>
+</resources>
