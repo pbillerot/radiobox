@@ -1,0 +1,12 @@
+{
+  "radios": [
+    {
+      "name": "France Inter",
+      "url": "http://direct.franceinter.fr/live/franceinter-midfi.mp3"
+    },
+    {
+      "name": "France Culture",
+      "url": "http://direct.franceculture.fr/live/franceculture-midfi.mp3"
+    }
+  ]
+}

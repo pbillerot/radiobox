@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d(TAG, "Clic");
         AudioItem audioItem = (AudioItem) parent.getItemAtPosition(position);
         if ( mViewCurrent == view ) {
             // Visuel : on supprime la surbrillance de la view du media en cours
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity
             mViewCurrent.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
             view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
             // On arrête le media en cours
-            stopPlaying();
+            //stopPlaying();
             mStreamId = -1;
             mViewCurrent = null;
         } else {
@@ -102,14 +104,14 @@ public class MainActivity extends AppCompatActivity
                 mViewCurrent.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
                 view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
                 // On arrête le media en cours
-                stopPlaying();
+                //stopPlaying();
             }
             // Visuel : on met en surbrillance la ligne de la view sélectionnée
             view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
             mViewCurrent = view;
             // On démarre le media
             // à noter que l'indice des éléments dans le pool commence à 1 (position+1 de la view)
-            startPlaying(audioItem.audio_url);
+            //startPlaying(audioItem.audio_url);
             mStreamId = position;
         }
     }
@@ -217,35 +219,33 @@ public class MainActivity extends AppCompatActivity
 
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mPlayer.reset();
             mPlayer.setDataSource(url);
+            //mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
             mPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
                     // ... react appropriately ...
                     // The MediaPlayer has moved to the Error state, must be reset!
-                    Log.e(TAG, "MediaPlayer what:" + what + " extra: + extra");
+                    Log.e(TAG, "MediaPlayer error:" + what + " extra:" + extra);
                     return false;
                 }
             });
 
             mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
                 public void onPrepared(MediaPlayer mp) {
-                    if (mp == mPlayer) {
+                    Log.e(TAG, "MediaPlayer onPrepared:" + mp.toString());
+                    //if (mp == mPlayer) {
+                        //Log.e(TAG, "MediaPlayer starting:" + mp.toString());
                         mPlayer.start();
-                    }
+                    //}
                 }
             });
             mPlayer.prepareAsync();
 
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            Log.e(TAG, e.getMessage() + " : " + e.getStackTrace().toString());
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            Log.e(TAG, e.getMessage() + " : " + e.getStackTrace().toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, e.getMessage() + " : " + e.getStackTrace().toString());
         }
